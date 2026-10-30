@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#241e20" />
+  <title>Altar de Muertos | Memoria y tradición</title>
+
+  <style>
+    :root {
+      --fondo: #241e20;
+      --superficie: #30282a;
+      --superficie-clara: #3a3030;
+      --marfil: #f2e9dc;
+      --texto-suave: #c9baaa;
+      --terracota: #a65f3f;
+      --terracota-oscuro: #704036;
+      --cempasuchil: #c49a45;
+      --morado: #62516f;
+      --borde: #ffffff18;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--marfil);
+      background: var(--fondo);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.7;
+    }
+
+    button, input { font: inherit; }
+
+    header {
+      min-height: 76vh;
+      display: grid;
+      place-items: center;
+      padding: 3rem 1.25rem;
+      text-align: center;
+      background:
+        linear-gradient(180deg, #241e2055, var(--fondo)),
+        radial-gradient(ellipse at center top, #81534266, transparent 65%);
+    }
+
+    .hero {
+      max-width: 720px;
+      animation: aparecer 1s ease both;
+    }
+
+    .hero-symbol {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 1rem;
+      border: 2px solid var(--cempasuchil);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .hero-symbol::before,
+    .hero-symbol::after {
+      content: "";
+      position: absolute;
+      top: 17px;
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--cempasuchil);
+      border-radius: 50%;
+    }
+
+    .hero-symbol::before { left: 13px; }
+    .hero-symbol::after { right: 13px; }
+
+    .eyebrow {
+      color: var(--cempasuchil);
+      font-family: Arial, sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: .1em 0;
+      color: var(--marfil);
+      font-size: clamp(3rem, 9vw, 6rem);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .hero p {
+      max-width: 580px;
+      margin: 1.25rem auto;
+      color: var(--texto-suave);
+      font-size: 1.1rem;
+    }
+
+    .button, button {
+      display: inline-block;
+      border: 1px solid var(--cempasuchil);
+      border-radius: 3px;
+      padding: .7rem 1.1rem;
+      color: var(--marfil);
+      background: transparent;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s, color .2s, transform .2s;
+    }
+
+    .button:hover, button:hover {
+      color: var(--fondo);
+      background: var(--cempasuchil);
+      transform: translateY(-2px);
+    }
+
+    .papel-picado {
+      height: 12px;
+      opacity: .8;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--terracota) 0 28px,
+        transparent 28px 37px,
+        var(--cempasuchil) 37px 65px,
+        transparent 65px 74px,
+        var(--morado) 74px 102px,
+        transparent 102px 111px
+      );
+    }
+
+    main {
+      width: min(1000px, 90%);
+      margin: 0 auto 4rem;
+    }
+
+    section {
+      margin: 2rem 0;
+      padding: clamp(1.3rem, 4vw, 2.4rem);
+      border: 1px solid var(--borde);
+      background: var(--superficie);
+    }
+
+    h2 {
+      margin: 0 0 .7rem;
+      color: var(--cempasuchil);
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 400;
+    }
+
+    .intro { color: var(--texto-suave); }
+
+    .altar {
+      display: grid;
+      gap: 9px;
+      max-width: 680px;
+      margin: 2rem auto 1rem;
+      text-align: center;
+    }
+
+    .nivel {
+      display: grid;
+      min-height: 82px;
+      place-items: center;
+      padding: 1rem;
+      border: 1px solid #dfbb7955;
+      color: var(--marfil);
+      font-size: 1.2rem;
+      letter-spacing: .2em;
+      transition: transform .2s;
+    }
+
+    .nivel:hover { transform: translateY(-2px); }
+    .nivel:nth-child(1) { background: #554052; }
+    .nivel:nth-child(2) { background: #70463a; }
+    .nivel:nth-child(3) { background: #62513a; }
+
+    .leyenda {
+      margin: .2rem 0 .5rem;
+      color: var(--texto-suave);
+      font-family: Arial, sans-serif;
+      font-size: .9rem;
+    }
+
+    .elementos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.7rem;
+    }
+
+    .tarjeta {
+      padding: 1.2rem;
+      border: 1px solid var(--borde);
+      border-top: 2px solid var(--terracota);
+      background: var(--superficie-clara);
+    }
+
+    .simbolo {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--cempasuchil);
+      border-radius: 50%;
+      position: relative;
+      vertical-align: middle;
+    }
+
+    .simbolo::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--cempasuchil);
+      border-radius: 50%;
+    }
+
+    .tarjeta h3 {
+      margin: .6rem 0 .4rem;
+      color: var(--cempasuchil);
+      font-weight: 400;
+    }
+
+    .tarjeta p {
+      margin: 0;
+      color: var(--texto-suave);
+      font-family: Arial, sans-serif;
+      font-size: .94rem;
+    }
+
+    .juego {
+      text-align: center;
+      background: #382b2a;
+    }
+
+    #pista, #mensaje { font-family: Arial, sans-serif; }
+    #mensaje { min-height: 1.7rem; color: var(--cempasuchil); }
+
+    .recuerdo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem;
+      margin-top: 1rem;
+    }
+
+    input {
+      flex: 1 1 220px;
+      min-width: 0;
+      padding: .75rem .9rem;
+      border: 1px solid #ffffff35;
+      border-radius: 3px;
+      outline: none;
+      color: var(--marfil);
+      background: var(--fondo);
+    }
+
+    input:focus { border-color: var(--cempasuchil); }
+
+    #listaRecuerdos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    #listaRecuerdos li {
+      padding: .4rem .75rem;
+      border: 1px solid #a65f3f77;
+      color: var(--marfil);
+      background: #a65f3f18;
+      font-family: Arial, sans-serif;
+      font-size: .9rem;
+    }
+
+    footer {
+      padding: 2rem 1rem;
+      color: var(--texto-suave);
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: .9rem;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="hero">
+      <div class="hero-symbol" aria-hidden="true"></div>
+      <div class="eyebrow">Memoria · Tradición · Encuentro</div>
+      <h1>Altar de<br />Muertos</h1>
+      <p>Una celebración íntima de quienes siguen presentes en nuestras historias, nuestras costumbres y nuestro corazón.</p>
+      <a class="button" href="#altar">Conocer el altar</a>
+    </div>
+  </header>
+
+  <div class="papel-picado" aria-hidden="true"></div>
+
+  <main>
+    <section id="altar">
+      <h2>Un altar lleno de significado</h2>
+      <p class="intro">Cada ofrenda cuenta una historia. Sus elementos acompañan el recuerdo y dan la bienvenida a quienes vuelven a visitarnos.</p>
+
+      <div class="altar" aria-label="Representación de un altar tradicional">
+        <div class="nivel">VELAS · CALAVERAS · FLORES</div>
+        <p class="leyenda"><strong>Cielo:</strong> la fe, la esperanza y la bienvenida.</p>
+        <div class="nivel">FOTOS · PAN · AGUA</div>
+        <p class="leyenda"><strong>Tierra:</strong> los recuerdos y las ofrendas familiares.</p>
+        <div class="nivel">FRUTAS · FLORES · OFRENDAS</div>
+        <p class="leyenda"><strong>Camino:</strong> el recorrido de las almas hacia el altar.</p>
+      </div>
+
+      <div class="elementos">
+        <article class="tarjeta">
+          <span class="simbolo" aria-hidden="true"></span>
+          <h3>Cempasúchil</h3>
+          <p>Su aroma y color ayudan a señalar el camino de regreso.</p>
+        </article>
+        <article class="tarjeta">
+          <span class="simbolo" aria-hidden="true"></span>
+          <h3>Velas</h3>
+          <p>Una luz que guía y acompaña a quienes vuelven.</p>
+        </article>
+        <article class="tarjeta">
+          <span class="simbolo" aria-hidden="true"></span>
+          <h3>Pan de muerto</h3>
+          <p>Ofrenda tradicional que reúne a las familias en torno a la mesa.</p>
+        </article>
+        <article class="tarjeta">
+          <span class="simbolo" aria-hidden="true"></span>
+          <h3>Agua</h3>
+          <p>Se ofrece para aliviar la sed después del largo viaje.</p>
+        </article>
+        <article class="tarjeta">
+          <span class="simbolo" aria-hidden="true"></span>
+          <h3>Fotografías</h3>
+          <p>Recuerdos de las personas que queremos honrar.</p>
+        </article>
+        <article class="tarjeta">
+          <span class="simbolo" aria-hidden="true"></span>
+          <h3>Calaveritas</h3>
+          <p>Un símbolo festivo que recuerda la vida con humor y afecto.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="juego">
+      <h2>¿Qué elemento soy?</h2>
+      <p id="pista">Pulsa el botón para recibir una pista y adivinar un elemento del altar.</p>
+      <p id="mensaje" aria-live="polite"></p>
+      <button id="botonJuego" type="button">Dame una pista</button>
+    </section>
+
+    <section>
+      <h2>Un recuerdo especial</h2>
+      <p class="intro">Escribe el nombre de alguien a quien quieras recordar. Su nombre aparecerá como una pequeña ofrenda.</p>
+      <form class="recuerdo" id="formRecuerdo">
+        <input id="nombre" type="text" maxlength="40" placeholder="Nombre o apodo" required />
+        <button type="submit">Agregar recuerdo</button>
+      </form>
+      <ul id="listaRecuerdos" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="papel-picado" aria-hidden="true"></div>
+    <p>Con respeto y cariño, celebramos nuestras tradiciones.</p>
+  </footer>
+
+  <script>
+    const acertijos = [
+      { pista: "Soy naranja, tengo aroma y mis pétalos forman caminos.", respuesta: "Cempasúchil" },
+      { pista: "Brillo en la oscuridad y ayudo a guiar a las almas.", respuesta: "La vela" },
+      { pista: "Soy una bebida que calma la sed después del viaje.", respuesta: "El agua" },
+      { pista: "Tengo huesitos de azúcar y una sonrisa muy especial.", respuesta: "La calaverita" },
+      { pista: "Soy dulce, tradicional y suelo compartirse en familia.", respuesta: "El pan de muerto" }
+    ];
+
+    let acertijoActual = null;
+
+    document.getElementById("botonJuego").addEventListener("click", () => {
+      const pista = document.getElementById("pista");
+      const mensaje = document.getElementById("mensaje");
+      const boton = document.getElementById("botonJuego");
+
+      if (!acertijoActual) {
+        acertijoActual = acertijos[Math.floor(Math.random() * acertijos.length)];
+        pista.textContent = acertijoActual.pista;
+        mensaje.textContent = "¿Ya sabes la respuesta?";
+        boton.textContent = "Mostrar respuesta";
+      } else {
+        mensaje.textContent = "La respuesta era: " + acertijoActual.respuesta + ".";
+        boton.textContent = "Jugar otra vez";
+        acertijoActual = null;
+      }
+    });
+
+    document.getElementById("formRecuerdo").addEventListener("submit", (evento) => {
+      evento.preventDefault();
+
+      const campo = document.getElementById("nombre");
+      const nombre = campo.value.trim();
+      if (!nombre) return;
+
+      const recuerdo = document.createElement("li");
+      recuerdo.textContent = "— " + nombre;
+      document.getElementById("listaRecuerdos").appendChild(recuerdo);
+
+      campo.value = "";
+      campo.focus();
+    });
+  </script>
+</body>
+</html>
